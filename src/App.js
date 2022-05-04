@@ -21,6 +21,9 @@ function App() {
         item: item,
         color: randomColor({
           luminosity: "light",
+          hue: "random",
+          alpha: 0.4,
+          format: "hsla",
         }),
         defaultPos: { x: 100, y: 0 },
       };
@@ -74,7 +77,10 @@ function App() {
                 updatePos(data, index);
               }}
             >
-              <div style={{ backgroundColor: item.color }} className="box">
+              <div
+                style={{ backgroundColor: item.color }}
+                className=" hover:ring transition-all ease-out absolute backdrop-blur-md min-w-min w-[128px] h-[128px] p-3 min-h-min  rounded overflow-hidden shadow-lg"
+              >
                 <p style={{ margin: 0 }}>{item.item}</p>
                 <button id="delete" onClick={(e) => deleteNote(item.id)}>
                   X
