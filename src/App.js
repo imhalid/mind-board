@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import Draggable from "react-draggable";
 import { v4 as uuidv4 } from "uuid";
+import { MdDragIndicator } from "react-icons/md";
+
 var randomColor = require("randomcolor");
 
 function App() {
@@ -83,8 +84,11 @@ function App() {
               }}
             >
               <div
-                style={{ backgroundColor: item.color }}
-                className=" hover:ring resize absolute backdrop-blur-md min-w-min w-[128px] h-[128px] min-h-min  rounded overflow-hidden shadow-lg"
+                style={{
+                  backgroundColor: item.color,
+                  boxShadow: `0px 0px 10px ${item.color}`,
+                }}
+                className="hover:ring hover:resize absolute backdrop-blur-md min-w-min w-[128px] h-[128px] min-h-min  rounded overflow-hidden shadow-lg"
               >
                 <p className="m-3">{item.item}</p>
                 <button
@@ -92,7 +96,9 @@ function App() {
                   id="delete"
                   onClick={(e) => deleteNote(item.id)}
                 ></button>
-                <drag className="cursor-move">hello</drag>
+                <drag className="cursor-move">
+                  <MdDragIndicator className=" hover:fill-gray-600 absolute fill-gray-400 right-2 top-[1.4px] rotate-90" />
+                </drag>
               </div>
             </Draggable>
           );
