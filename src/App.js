@@ -10,12 +10,12 @@ function App() {
     JSON.parse(localStorage.getItem("items")) || []
   );
 
-  const randomNumber = () => {
-    return Math.floor(Math.random() * 1000);
-  };
+  const randomNumber = Math.floor(Math.random() * 250);
 
+  //yeni öğre burada oluşturuluyor
   const newitem = () => {
     if (item.trim() !== "") {
+      //yeni item özellikleri
       const newitem = {
         id: uuidv4(),
         item: item,
@@ -25,7 +25,7 @@ function App() {
           alpha: 0.4,
           format: "hsla",
         }),
-        defaultPos: { x: 100, y: 0 },
+        defaultPos: { x: randomNumber, y: randomNumber },
       };
       setItems((items) => [...items, newitem]);
       setItem("");
@@ -35,6 +35,7 @@ function App() {
     }
   };
 
+  //enter basma kkodu
   const keyPress = (event) => {
     var code = event.keyCode || event.which;
     if (code === 13) {
@@ -42,16 +43,19 @@ function App() {
     }
   };
 
+  //localde olan verileri burada gösteriyor
   useEffect(() => {
     localStorage.setItem("items", JSON.stringify(items));
   }, [items]);
 
+  //itemlerin kkonuumlarını  burada tutuyor
   const updatePos = (data, index) => {
     let newArr = [...items];
     newArr[index].defaultPos = { x: data.x, y: data.y };
     setItems(newArr);
   };
 
+  //itemleri silmek için
   const deleteNote = (id) => {
     setItems(items.filter((item) => item.id !== id));
   };
@@ -71,6 +75,7 @@ function App() {
         {items.map((item, index) => {
           return (
             <Draggable
+              handle="drag"
               key={item.id}
               defaultPosition={item.defaultPos}
               onStop={(e, data) => {
@@ -79,12 +84,15 @@ function App() {
             >
               <div
                 style={{ backgroundColor: item.color }}
-                className=" hover:ring transition-all ease-out absolute backdrop-blur-md min-w-min w-[128px] h-[128px] p-3 min-h-min  rounded overflow-hidden shadow-lg"
+                className=" hover:ring resize absolute backdrop-blur-md min-w-min w-[128px] h-[128px] min-h-min  rounded overflow-hidden shadow-lg"
               >
-                <p style={{ margin: 0 }}>{item.item}</p>
-                <button id="delete" onClick={(e) => deleteNote(item.id)}>
-                  X
-                </button>
+                <p className="m-3">{item.item}</p>
+                <button
+                  className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
+                  id="delete"
+                  onClick={(e) => deleteNote(item.id)}
+                ></button>
+                <drag className="cursor-move">hello</drag>
               </div>
             </Draggable>
           );
