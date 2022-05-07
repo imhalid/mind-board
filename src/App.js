@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
+
 import { v4 as uuidv4 } from "uuid";
 import { MdDragIndicator } from "react-icons/md";
 import TextareaAutosize from "react-textarea-autosize";
@@ -77,7 +78,8 @@ function App() {
         {items.map((item, index) => {
           return (
             <Draggable
-              handle="drag"
+              handle="#dragger"
+              cancel="#textarea"
               key={item.id}
               defaultPosition={item.defaultPos}
               onStop={(e, data) => {
@@ -91,18 +93,24 @@ function App() {
                 }}
                 className="hover:ring hover:resize absolute backdrop-blur-md min-w-min w-[128px] min-h-min  rounded overflow-hidden shadow-lg"
               >
-                <TextareaAutosize className="m-3 mt-5 rounded">
-                  {item.item}
-                </TextareaAutosize>
+                <div id="dragger" className=" bg-gray-800">
+                  <TextareaAutosize
+                    id="textarea"
+                    style={{ boxSizing: "border-box" }}
+                    className="m-3 w-fit h-full mt-5 relative rounded"
+                  >
+                    {item.item}
+                  </TextareaAutosize>
 
-                <button
-                  className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
-                  id="delete"
-                  onClick={(e) => deleteNote(item.id)}
-                ></button>
-                <drag className="cursor-move">
-                  <MdDragIndicator className=" hover:fill-gray-600 absolute fill-gray-400 right-2 top-[1.4px] rotate-90" />
-                </drag>
+                  <button
+                    className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
+                    id="delete"
+                    onClick={() => deleteNote(item.id)}
+                  ></button>
+                  <span className="cursor-move">
+                    <MdDragIndicator className=" hover:fill-gray-600 absolute fill-gray-400 right-2 top-[1.4px] rotate-90" />
+                  </span>
+                </div>
               </div>
             </Draggable>
           );
