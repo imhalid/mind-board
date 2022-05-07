@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 import { v4 as uuidv4 } from "uuid";
 import { MdDragIndicator } from "react-icons/md";
+import TextareaAutosize from "react-textarea-autosize";
 
 var randomColor = require("randomcolor");
 
@@ -88,9 +89,12 @@ function App() {
                   backgroundColor: item.color,
                   boxShadow: `0px 0px 10px ${item.color}`,
                 }}
-                className="hover:ring hover:resize absolute backdrop-blur-md min-w-min w-[128px] h-[128px] min-h-min  rounded overflow-hidden shadow-lg"
+                className="hover:ring hover:resize absolute backdrop-blur-md min-w-min w-[128px] min-h-min  rounded overflow-hidden shadow-lg"
               >
-                <p className="m-3">{item.item}</p>
+                <TextareaAutosize className="m-3 mt-5 rounded">
+                  {item.item}
+                </TextareaAutosize>
+
                 <button
                   className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
                   id="delete"
