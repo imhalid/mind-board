@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
-
 import { v4 as uuidv4 } from "uuid";
-import { MdDragIndicator } from "react-icons/md";
-import TextareaAutosize from "react-textarea-autosize";
+// import TextareaAutosize from "react-textarea-autosize";
 
 var randomColor = require("randomcolor");
 
@@ -22,6 +20,7 @@ function App() {
       const newitem = {
         id: uuidv4(),
         item: item,
+        edit: false,
         color: randomColor({
           luminosity: "light",
           hue: "random",
@@ -39,12 +38,12 @@ function App() {
   };
 
   //enter basma kkodu
-  const keyPress = (event) => {
-    var code = event.keyCode || event.which;
-    if (code === 13) {
-      newitem();
-    }
-  };
+  // const keyPress = (event) => {
+  //   var code = event.keyCode || event.which;
+  //   if (code === 13) {
+  //     newitem();
+  //   }
+  // };
 
   //localde olan verileri burada gösteriyor
   useEffect(() => {
@@ -63,14 +62,26 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
+  //itemleri güncellemek için
+  // const handleEdit = (id, item) => {
+  //   setItems((prevItems) =>
+  //     prevItems.map((item) =>
+  //       item.id === id ? { ...item, edit: !item.edit } : item
+  //     )
+  //   );
+  //   setEdit(item);
+  // };
+
+  console.log(items);
+
   return (
     <div className="App">
       <div id="new-item">
-        <input
+        <textarea
           value={item}
           onChange={(e) => setItem(e.target.value)}
           placeholder="Enter something..."
-          onKeyPress={(e) => keyPress(e)}
+          // onKeyPress={(e) => keyPress(e)}
         />
         <button onClick={newitem}>ENTER</button>
       </div>
@@ -78,8 +89,7 @@ function App() {
         {items.map((item, index) => {
           return (
             <Draggable
-              handle="#dragger"
-              cancel="#textarea"
+              cancel="#textarea, button"
               key={item.id}
               defaultPosition={item.defaultPos}
               onStop={(e, data) => {
@@ -87,30 +97,25 @@ function App() {
               }}
             >
               <div
+                onDoubleClick={() => deleteNote(item.id)}
                 style={{
                   backgroundColor: item.color,
                   boxShadow: `0px 0px 10px ${item.color}`,
                 }}
-                className="hover:ring hover:resize absolute backdrop-blur-md min-w-min w-[128px] min-h-min  rounded overflow-hidden shadow-lg"
+                className="hover:ring select-none cursor-grab absolute backdrop-blur-md min-w-min w-[128px] min-h-min  rounded overflow-hidden shadow-lg"
               >
-                <div id="dragger" className=" bg-gray-800">
-                  <TextareaAutosize
-                    id="textarea"
-                    style={{ boxSizing: "border-box" }}
-                    className="m-3 w-fit h-full mt-5 relative rounded"
-                  >
-                    {item.item}
-                  </TextareaAutosize>
+                <p
+                  id="textarea"
+                  className="m-3 w-fit h-full mt-5 cursor-default relative rounded"
+                >
+                  {item.item}
+                </p>
 
-                  <button
-                    className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
-                    id="delete"
-                    onClick={() => deleteNote(item.id)}
-                  ></button>
-                  <span className="cursor-move">
-                    <MdDragIndicator className=" hover:fill-gray-600 absolute fill-gray-400 right-2 top-[1.4px] rotate-90" />
-                  </span>
-                </div>
+                <button
+                  className=" shadow-inner absolute w-[10px] h-[10px] hover:bg-[#EC6A5E] bg-[#a0a0a0] rounded-full left-1 top-1 "
+                  id="delete"
+                  onClick={() => deleteNote(item.id)}
+                ></button>
               </div>
             </Draggable>
           );
